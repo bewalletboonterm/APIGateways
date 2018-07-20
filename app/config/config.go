@@ -9,5 +9,5 @@ const (
 	DB_HOST     string = "localhost"
 	DB_PORT     string = "3306"
 
-	HOST_BEWALLET string = "http://61.91.152.56"
+	HOST_BEWALLET string = "http://172.181.1.12:9300"
 )

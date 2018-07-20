@@ -2,6 +2,7 @@ FROM golang:latest
 
 ARG app_env
 ENV PORT 8080
+ENV PORT 80
 ENV APP_ENV $app_env
 
 COPY ./app /go/src/APIGateways/app
