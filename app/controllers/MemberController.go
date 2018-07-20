@@ -19,18 +19,19 @@ type (
 	ResultEntity struct {
 		Success          bool   `json:"success"`
 		ResultCode       string `json:"resultCode" `
-		Path             string `json:"path" `
-		ErrorDescription string `json:"errorDescription" `
-		DeveloperMessage string `json:"developerMessage" `
+		Path             string `json:"path,omitempty" `
+		ErrorDescription string `json:"errorDescription,omitempty" `
+		DeveloperMessage string `json:"developerMessage,omitempty" `
 		TimeStamp        int    `json:"timeStamp" `
 		Result           struct {
-			RefCode string `json:"refCode"`
+			RefCode string `json:"refCode,omitempty"`
+			Rest    string `json:"rest,omitempty"`
 		} `json:"result" `
-		ServerError string `json:"serverError" `
-		Method      string `json:"method" `
-		Header      string `json:"header" `
-		RequestBody string `json:"requestBody" `
-		Message     string `json:"message" `
+		ServerError string `json:"serverError,omitempty" `
+		Method      string `json:"method,omitempty" `
+		Header      string `json:"header,omitempty" `
+		RequestBody string `json:"requestBody,omitempty" `
+		Message     string `json:"message,omitempty" `
 	}
 
 	ReqSendOTPRegister struct {
