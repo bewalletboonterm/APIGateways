@@ -12,4 +12,4 @@ RUN go build
 
 CMD [ "app" ]
 	
-EXPOSE 8080
+EXPOSE 80
