@@ -23,12 +23,14 @@ type (
 		ErrorDescription string `json:"errorDescription" `
 		DeveloperMessage string `json:"developerMessage" `
 		TimeStamp        int    `json:"timeStamp" `
-		Result           string `json:"result" `
-		ServerError      string `json:"serverError" `
-		Method           string `json:"method" `
-		Header           string `json:"header" `
-		RequestBody      string `json:"requestBody" `
-		Message          string `json:"message" `
+		Result           struct {
+			RefCode string `json:"refCode"`
+		} `json:"result" `
+		ServerError string `json:"serverError" `
+		Method      string `json:"method" `
+		Header      string `json:"header" `
+		RequestBody string `json:"requestBody" `
+		Message     string `json:"message" `
 	}
 
 	ReqSendOTPRegister struct {
