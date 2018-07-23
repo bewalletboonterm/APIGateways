@@ -11,22 +11,84 @@ import (
 )
 
 type (
-	ResultEntity struct {
+	ResultSendOTPRegister struct {
 		Success          bool   `json:"success"`
 		ResultCode       string `json:"resultCode" `
-		Path             string `json:"path,omitempty" `
-		ErrorDescription string `json:"errorDescription,omitempty" `
-		DeveloperMessage string `json:"developerMessage,omitempty" `
+		ErrorDescription string `json:"errorDescription" `
+		DeveloperMessage string `json:"developerMessage" `
 		TimeStamp        int    `json:"timeStamp" `
 		Result           struct {
-			RefCode string `json:"refCode,omitempty"`
-			Rest    string `json:"rest,omitempty"`
+			RefCode string `json:"refCode"`
 		} `json:"result" `
-		ServerError string `json:"serverError,omitempty" `
-		Method      string `json:"method,omitempty" `
-		Header      string `json:"header,omitempty" `
-		RequestBody string `json:"requestBody,omitempty" `
-		Message     string `json:"message,omitempty" `
+		Message string `json:"message" `
+	}
+
+	ResultValidateOTPByPhone struct {
+		Success          bool   `json:"success"`
+		ResultCode       string `json:"resultCode" `
+		ErrorDescription string `json:"errorDescription" `
+		DeveloperMessage string `json:"developerMessage" `
+		TimeStamp        int    `json:"timeStamp" `
+		Result           string `json:"result" `
+		Message          string `json:"message" `
+	}
+
+	ResultValidateBeforeRegister struct {
+		Success          bool   `json:"success"`
+		ResultCode       string `json:"resultCode" `
+		ErrorDescription string `json:"errorDescription" `
+		DeveloperMessage string `json:"developerMessage" `
+		TimeStamp        int    `json:"timeStamp" `
+		Result           struct {
+			PersonalID string `json:"personalId"`
+			Email      string `json:"email"`
+		} `json:"result" `
+		Message string `json:"message" `
+	}
+
+	ResultRegister struct {
+		Success          bool   `json:"success"`
+		ResultCode       string `json:"resultCode" `
+		ErrorDescription string `json:"errorDescription" `
+		DeveloperMessage string `json:"developerMessage" `
+		TimeStamp        int    `json:"timeStamp" `
+		Result           struct {
+			FirstName       string `json:"firstName"`
+			LastName        string `json:"lastName"`
+			MobilePhoneNo   string `json:"mobilePhoneNo"`
+			Email           string `json:"email"`
+			Address         string `json:"address"`
+			PersonalID      string `json:"personalId"`
+			AvatarImageLink string `json:"avatarImageLink"`
+			MemberLevel     int    `json:"memberLevel"`
+			BirthDate       string `json:"birthDate"`
+			UsageLimit      string `json:"usageLimit"`
+			MemberCode      string `json:"memberCode"`
+			Wallet          struct {
+				AccountNumber    string  `json:"accountNumber"`
+				BalanceAmount    float32 `json:"balanceAmount"`
+				UsedAmount       float32 `json:"usedAmount"`
+				BalanceAmountStr string  `json:"balanceAmountStr"`
+				UsedAmountStr    string  `json:"usedAmountStr"`
+				FileUrl          string  `json:"fileUrl"`
+			} `json:"wallet" `
+			FullName string `json:"fullName"`
+			FileUrl  string `json:"fileUrl"`
+			Gender   string `json:"gender"`
+			Country  struct {
+				ID   int    `json:"id"`
+				Name string `json:"name"`
+			} `json:"country" `
+			Job               string `json:"job"`
+			SubJob            string `json:"subJob"`
+			JobDescription    string `json:"jobDescription"`
+			SubJobDescription string `json:"subJobDescription"`
+			Province          string `json:"province"`
+			ProvinceID        string `json:"provinceId"`
+			Postcode          string `json:"postcode"`
+			MsgUnread         string `json:"msgUnread"`
+		} `json:"result" `
+		Message string `json:"message" `
 	}
 
 	ReqSendOTPRegister struct {
@@ -85,7 +147,7 @@ func SendOTPRegister(c echo.Context) (err error) {
 	defer resp.Body.Close()
 
 	// Fill the data with the data from the JSON
-	var data ResultEntity
+	var data ResultSendOTPRegister
 
 	// Use json.Decode for reading streams of JSON data
 	if err := json.NewDecoder(resp.Body).Decode(&data); err != nil {
@@ -115,7 +177,7 @@ func ValidateOTPByPhone(c echo.Context) (err error) {
 	}
 
 	defer resp.Body.Close()
-	var data ResultEntity
+	var data ResultValidateOTPByPhone
 	if err := json.NewDecoder(resp.Body).Decode(&data); err != nil {
 		fmt.Println(err)
 	}
@@ -141,7 +203,7 @@ func ValidateBeforeRegister(c echo.Context) (err error) {
 	}
 
 	defer resp.Body.Close()
-	var data ResultEntity
+	var data ResultValidateBeforeRegister
 	if err := json.NewDecoder(resp.Body).Decode(&data); err != nil {
 		fmt.Println(err)
 	}
@@ -167,7 +229,7 @@ func Register(c echo.Context) error {
 	}
 
 	defer resp.Body.Close()
-	var data ResultEntity
+	var data ResultRegister
 	if err := json.NewDecoder(resp.Body).Decode(&data); err != nil {
 		fmt.Println(err)
 	}
