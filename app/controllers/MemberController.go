@@ -1,18 +1,13 @@
 package MemberController
 
 import (
+	// "APIGateways/app/config"
 	"bytes"
 	"encoding/json"
 	"fmt"
-
-	"APIGateways/app/config"
-
 	"github.com/labstack/echo"
-
-	// "io/ioutil"
-	// "log"
 	"net/http"
-	// "os"
+	"os"
 )
 
 type (
@@ -72,7 +67,7 @@ func SendOTPRegister(c echo.Context) (err error) {
 	}
 
 	// Build the request
-	req, err := http.NewRequest("GET", config.HOST_BEWALLET+"/rest/APIGateway/sendOTPRegister?mobilePhoneNo="+reqBody.MobilePhoneNo, nil)
+	req, err := http.NewRequest("GET", os.Getenv("HOST_BEWALLET")+"/rest/APIGateway/sendOTPRegister?mobilePhoneNo="+reqBody.MobilePhoneNo, nil)
 	if err != nil {
 		fmt.Println("Error is req: ", err)
 	}
@@ -111,7 +106,7 @@ func ValidateOTPByPhone(c echo.Context) (err error) {
 	}
 
 	jsonValue, _ := json.Marshal(reqBody)
-	request, _ := http.NewRequest("POST", config.HOST_BEWALLET+"/rest/APIGateway/validateOTPByPhone", bytes.NewBuffer(jsonValue))
+	request, _ := http.NewRequest("POST", os.Getenv("HOST_BEWALLET")+"/rest/APIGateway/validateOTPByPhone", bytes.NewBuffer(jsonValue))
 	request.Header.Set("Content-Type", "application/json")
 	client := &http.Client{}
 	resp, err := client.Do(request)
@@ -137,7 +132,7 @@ func ValidateBeforeRegister(c echo.Context) (err error) {
 	}
 
 	jsonValue, _ := json.Marshal(reqBody)
-	request, _ := http.NewRequest("POST", config.HOST_BEWALLET+"/rest/APIGateway/validateBeforeRegister", bytes.NewBuffer(jsonValue))
+	request, _ := http.NewRequest("POST", os.Getenv("HOST_BEWALLET")+"/rest/APIGateway/validateBeforeRegister", bytes.NewBuffer(jsonValue))
 	request.Header.Set("Content-Type", "application/json")
 	client := &http.Client{}
 	resp, err := client.Do(request)
@@ -163,7 +158,7 @@ func Register(c echo.Context) error {
 	}
 
 	jsonValue, _ := json.Marshal(reqBody)
-	request, _ := http.NewRequest("POST", config.HOST_BEWALLET+"/rest/APIGateway/register", bytes.NewBuffer(jsonValue))
+	request, _ := http.NewRequest("POST", os.Getenv("HOST_BEWALLET")+"/rest/APIGateway/register", bytes.NewBuffer(jsonValue))
 	request.Header.Set("Content-Type", "application/json")
 	client := &http.Client{}
 	resp, err := client.Do(request)

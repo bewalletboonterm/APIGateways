@@ -1,8 +1,7 @@
 FROM golang:latest
 
-ARG app_env
 ENV PORT 80
-ENV APP_ENV $app_env
+ENV HOST_BEWALLET localhost:9300
 
 COPY ./app /go/src/APIGateways/app
 WORKDIR /go/src/APIGateways/app
