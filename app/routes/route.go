@@ -33,6 +33,7 @@ func Init() *echo.Echo {
 			member.POST("/validateOTPByPhone", MemberController.ValidateOTPByPhone)
 			member.POST("/validateBeforeRegister", MemberController.ValidateBeforeRegister)
 			member.POST("/register", MemberController.Register)
+			member.POST("/sendReqToCore", MemberController.SendReqToCore)
 		}
 
 	}

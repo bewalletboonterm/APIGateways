@@ -117,6 +117,36 @@ type (
 		OtpCode       string `json:"otpCode"`
 		CountryID     string `json:"countryId"`
 	}
+
+	ReqSendReqToCore struct {
+		FirstName     string `json:"firstName"`
+		LastName      string `json:"lastName"`
+		MobilePhoneNo string `json:"mobilePhoneNo"`
+		Email         string `json:"email"`
+		Password      string `json:"password"`
+		PersonalID    string `json:"personalID"`
+		RefCode       string `json:"refCode"`
+		CountryID     string `json:"countryId"`
+	}
+
+	ResSendReqToCore struct {
+		Success          bool   `json:"success"`
+		ResultCode       string `json:"resultCode" `
+		ErrorDescription string `json:"errorDescription" `
+		DeveloperMessage string `json:"developerMessage" `
+		TimeStamp        int    `json:"timeStamp" `
+		Result           struct {
+			FirstName     string `json:"firstName"`
+			LastName      string `json:"lastName"`
+			MobilePhoneNo string `json:"mobilePhoneNo"`
+			Email         string `json:"email"`
+			Password      string `json:"password"`
+			PersonalID    string `json:"personalID"`
+			RefCode       string `json:"refCode"`
+			CountryID     string `json:"countryId"`
+		} `json:"result" `
+		Message string `json:"message" `
+	}
 )
 
 // Send otp to user
@@ -234,4 +264,30 @@ func Register(c echo.Context) error {
 		fmt.Println(err)
 	}
 	return c.JSON(http.StatusOK, data)
+}
+
+func SendReqToCore(c echo.Context) (err error) {
+
+	var reqBody ReqSendReqToCore
+
+	if err := c.Bind(&reqBody); err != nil {
+		return err
+	}
+
+	jsonValue, _ := json.Marshal(reqBody)
+	request, _ := http.NewRequest("POST", os.Getenv("HOST_BEWALLET")+"/rest/APIGateway/validateOTPByPhone", bytes.NewBuffer(jsonValue))
+	request.Header.Set("Content-Type", "application/json")
+	client := &http.Client{}
+	resp, err := client.Do(request)
+	if err != nil {
+		fmt.Printf("The HTTP request failed with error %s\n", err)
+	}
+
+	defer resp.Body.Close()
+	var data ResultValidateOTPByPhone
+	if err := json.NewDecoder(resp.Body).Decode(&data); err != nil {
+		fmt.Println(err)
+	}
+	return c.JSON(http.StatusOK, data)
+
 }
