@@ -275,7 +275,7 @@ func SendReqToCore(c echo.Context) (err error) {
 	}
 
 	jsonValue, _ := json.Marshal(reqBody)
-	request, _ := http.NewRequest("POST", os.Getenv("HOST_BEWALLET")+"/rest/APIGateway/validateOTPByPhone", bytes.NewBuffer(jsonValue))
+	request, _ := http.NewRequest("POST", os.Getenv("HOST_BEWALLET")+"/rest/APIGateway/apiRest", bytes.NewBuffer(jsonValue))
 	request.Header.Set("Content-Type", "application/json")
 	client := &http.Client{}
 	resp, err := client.Do(request)
